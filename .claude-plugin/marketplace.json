@@ -1,0 +1,14 @@
+{
+  "name": "agentskills",
+  "owner": {
+    "name": "Sanjay Nagi"
+  },
+  "description": "A marketplace providing the agentskills plugin.",
+  "plugins": [
+    {
+      "name": "agentskills",
+      "source": "./plugins/agentskills",
+      "description": "Personal skill collection: build (concise engineering standards) and human (plain, human-sounding writing)."
+    }
+  ]
+}
