@@ -1,6 +1,6 @@
 ---
 name: build
-description: Use when writing, reviewing, or planning code in ginkgo - a condensed engineering-standards lens (planning, style, testing, refactoring) with an emphasis on avoiding unnecessary complexity and verbose code.
+description: Use when writing, reviewing, or planning code - a condensed engineering-standards lens (planning, style, testing) with an emphasis on avoiding unnecessary complexity and verbose code.
 ---
 
 # Build
