@@ -1,0 +1,269 @@
+<title>REPORT TITLE (scientific-report template)</title>
+<!--
+  scientific-report template.
+  Copy this file, keep the CSS, replace the CONTENT between <main> ... </main>.
+  Rules (see SKILL.md): abstract, methods/scope, then one section per analysis,
+  each opening Hypothesis -> Methods (1-2 sentences) -> Results. Number every
+  table and figure and refer to each from the text. Table captions ABOVE the
+  table, figure captions BELOW. No callout boxes. No em dashes. Cite sources
+  with superscript [n] links to the references list.
+  Do NOT add <!DOCTYPE>/<html>/<head>/<body>; the Artifact wrapper injects them.
+-->
+<style>
+  :root {
+    --bg: #F4F7F6; --surface: #FFFFFF; --surface-2: #EAF0EF;
+    --ink: #10201D; --muted: #4E6560;
+    --accent: #0B7285; --accent-ink: #06474F; --accent-soft: #D9EEEC;
+    --good: #1F8A5F; --good-soft: #DCF0E5;
+    --warn: #B4750E; --warn-soft: #F6E7CE;
+    --bad: #B23A3A; --bad-soft: #F6DDDA;
+    --line: #D8E3E0;
+    --shadow: 0 1px 2px rgba(16,32,29,0.04), 0 8px 24px rgba(16,32,29,0.05);
+    /* shared content width: text and exhibits align to this */
+    --measure: 900px;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0B1412; --surface: #101B18; --surface-2: #16241F;
+    --ink: #E7F1EE; --muted: #9AB3AC;
+    --accent: #4FD1C5; --accent-ink: #BFF3EC; --accent-soft: #163632;
+    --good: #4CC38A; --good-soft: #133226;
+    --warn: #E0A64C; --warn-soft: #34280F;
+    --bad: #E2726B; --bad-soft: #351C1B;
+    --line: #1E2E29;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0B1412; --surface: #101B18; --surface-2: #16241F;
+      --ink: #E7F1EE; --muted: #9AB3AC;
+      --accent: #4FD1C5; --accent-ink: #BFF3EC; --accent-soft: #163632;
+      --good: #4CC38A; --good-soft: #133226;
+      --warn: #E0A64C; --warn-soft: #34280F;
+      --bad: #E2726B; --bad-soft: #351C1B;
+      --line: #1E2E29;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+  code, .mono, .num, table td, table th {
+    font-family: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", Consolas, monospace;
+  }
+  .num { font-variant-numeric: tabular-nums; }
+
+  a { color: var(--accent-ink); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 2px; }
+  a:hover { text-decoration-color: currentColor; }
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  sup.cite { font-size: 0.72em; line-height: 0; margin-left: 1px; }
+  sup.cite a { text-decoration: none; font-weight: 600; color: var(--accent-ink); }
+  sup.cite a:hover { text-decoration: underline; }
+  ol.refs li { scroll-margin-top: 24px; }
+
+  h1, h2, h3 { text-wrap: balance; font-weight: 700; letter-spacing: -0.01em; }
+
+  .shell { display: grid; grid-template-columns: 240px minmax(0, 1fr); max-width: 1240px; margin: 0 auto; }
+  @media (max-width: 900px) { .shell { grid-template-columns: 1fr; } nav.toc { display: none; } }
+
+  /* side nav */
+  nav.toc { position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto; padding: 28px 18px 28px 24px; border-right: 1px solid var(--line); }
+  nav.toc .brand { font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-ink); margin-bottom: 4px; }
+  nav.toc .brand-sub { font-size: 12px; color: var(--muted); margin-bottom: 22px; }
+  nav.toc ol { list-style: none; margin: 0; padding: 0; counter-reset: sec; }
+  nav.toc li { counter-increment: sec; margin-bottom: 2px; }
+  nav.toc a { display: flex; gap: 10px; align-items: baseline; padding: 7px 8px; border-radius: 6px; font-size: 13px; text-decoration: none; color: var(--muted); }
+  nav.toc a::before { content: counter(sec, decimal-leading-zero); font-family: ui-monospace, monospace; font-size: 11px; color: var(--muted); opacity: 0.7; flex: 0 0 auto; }
+  nav.toc a:hover { background: var(--surface-2); color: var(--ink); }
+  nav.toc .flag { margin-left: auto; width: 7px; height: 7px; border-radius: 50%; flex: 0 0 auto; }
+  nav.toc .flag.bad { background: var(--bad); }
+  nav.toc .flag.warn { background: var(--warn); }
+
+  /* main column */
+  main { padding: 28px 32px 80px; min-width: 0; }
+  header.masthead { padding: 36px 0 28px; border-bottom: 1px solid var(--line); margin-bottom: 32px; }
+  .eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-ink); margin: 0 0 10px; }
+  header.masthead h1 { font-size: clamp(28px, 4vw, 38px); margin: 0 0 18px; line-height: 1.12; }
+
+  .stat-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; max-width: var(--measure); }
+  .stat { background: var(--surface); padding: 14px 16px; }
+  .stat .v { font-family: ui-monospace, monospace; font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .stat .v.good { color: var(--good); }
+  .stat .l { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 3px; }
+
+  section { margin-bottom: 44px; scroll-margin-top: 20px; }
+  section > details > summary.sec-head, section > .sec-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; }
+  summary.sec-head { cursor: pointer; list-style: none; align-items: center; }
+  summary.sec-head::-webkit-details-marker { display: none; }
+  summary.sec-head::before { content: "\25B8"; color: var(--muted); font-size: 13px; line-height: 1; transition: transform 0.15s ease; flex: 0 0 auto; }
+  details[open] > summary.sec-head::before { transform: rotate(90deg); }
+  summary.sec-head:hover::before { color: var(--ink); }
+  section h2 { font-size: 20px; margin: 0; }
+  section h2 .secno { font-family: ui-monospace, monospace; font-size: 13px; font-weight: 600; color: var(--accent-ink); margin-right: 10px; }
+
+  /* text and exhibits share one width so they align */
+  section > p, section > details > p { color: var(--ink); font-size: 15px; max-width: var(--measure); }
+  .lead { font-size: 15.5px; max-width: var(--measure); margin-top: 10px; }
+  .lead strong { color: var(--accent-ink); }
+
+  /* Hypothesis / Methods / Results opener */
+  .hmr { margin-top: 12px; max-width: var(--measure); }
+  .hmr p { font-size: 15px; margin: 0 0 10px; }
+  .hmr p .tag { font-weight: 700; color: var(--accent-ink); }
+
+  /* exhibits (no boxes) */
+  .figure { margin-top: 16px; max-width: var(--measure); }
+  .cap { font-size: 12.5px; color: var(--muted); margin-top: 8px; line-height: 1.5; max-width: var(--measure); }
+  .cap strong { color: var(--ink); font-weight: 700; }
+  /* table caption sits ABOVE the table; figure caption stays BELOW */
+  p.cap:has(+ .table-wrap) { margin-top: 0; margin-bottom: 10px; }
+
+  .table-wrap { overflow-x: auto; margin-top: 14px; border: 1px solid var(--line); border-radius: 10px; max-width: var(--measure); }
+  .figure .table-wrap { margin-top: 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  thead th { text-align: left; font-family: -apple-system, "Segoe UI", sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); font-weight: 600; padding: 10px 14px; background: var(--surface-2); border-bottom: 1px solid var(--line); white-space: nowrap; }
+  tbody td { padding: 9px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--surface-2); }
+  td.num, th.num { text-align: right; }
+  td.wrap, th.wrap { white-space: normal; }
+
+  /* simple div-based charts (no chart library) */
+  .bar-row { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+  .bar-row .lbl { width: 168px; flex: 0 0 auto; font-size: 12.5px; font-family: ui-monospace, monospace; }
+  .bar-row .track { flex: 1; height: 9px; background: var(--surface-2); border-radius: 5px; overflow: hidden; }
+  .bar-row .fill { height: 100%; border-radius: 5px 0 0 5px; }
+  .bar-row .n { width: 44px; text-align: right; font-size: 12.5px; font-family: ui-monospace, monospace; color: var(--muted); flex: 0 0 auto; }
+  .stack { display: flex; height: 22px; border-radius: 5px; overflow: hidden; border: 1px solid var(--line); max-width: var(--measure); }
+  .stack > span { height: 100%; }
+
+  /* summary bullets */
+  ul.summary { margin: 16px 0 0; padding-left: 0; list-style: none; }
+  ul.summary li { position: relative; padding: 10px 0 10px 26px; border-bottom: 1px solid var(--line); font-size: 15px; max-width: var(--measure); }
+  ul.summary li:last-child { border-bottom: none; }
+  ul.summary li::before { content: ""; position: absolute; left: 4px; top: 18px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  ul.summary li.good::before { background: var(--good); }
+  ul.summary li.bad::before { background: var(--bad); }
+  ul.summary li.warn::before { background: var(--warn); }
+  ul.summary li strong { color: var(--ink); }
+
+  ol.refs { margin: 16px 0 0; padding-left: 20px; font-size: 13.5px; color: var(--muted); }
+  ol.refs li { margin-bottom: 8px; max-width: var(--measure); }
+  ol.refs code { background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
+
+  .foot { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12.5px; }
+  .foot code { background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
+
+  @media print { nav.toc { display: none; } .shell { grid-template-columns: 1fr; } }
+</style>
+
+<div class="shell">
+
+  <nav class="toc" aria-label="Report sections">
+    <div class="brand">ORGANISATION</div>
+    <div class="brand-sub">Report subtitle</div>
+    <ol>
+      <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#methods">Methods and scope</a></li>
+      <li><a href="#result-a"><span>First result</span><span class="flag bad"></span></a></li>
+      <li><a href="#summary">Summary</a></li>
+      <li><a href="#refs">References</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <header class="masthead">
+      <p class="eyebrow">Report category</p>
+      <h1>Report title: a clear, specific statement of what this is</h1>
+      <!-- Infographic: the headline numbers at a glance. -->
+      <div class="stat-strip">
+        <div class="stat"><div class="v num">000</div><div class="l">Metric one</div></div>
+        <div class="stat"><div class="v num">0,000</div><div class="l">Metric two</div></div>
+        <div class="stat"><div class="v good num">00.0%</div><div class="l">Metric three</div></div>
+        <div class="stat"><div class="v good num">00.0%</div><div class="l">Metric four</div></div>
+      </div>
+    </header>
+
+    <!-- 1. ABSTRACT: two short paragraphs, no exhibits, no citations. -->
+    <section id="abstract">
+      <details open>
+        <summary class="sec-head"><h2><span class="secno">1</span>Abstract</h2></summary>
+        <p class="lead">Paragraph one: what was tested and on what data. State the question and the dataset in plain terms.</p>
+        <p class="lead">Paragraph two: the headline results and the issues that need action. Give the numbers that matter and name what to fix.</p>
+      </details>
+    </section>
+
+    <!-- 2. METHODS AND SCOPE: how the data was produced and checked; the scope; citations to sources. -->
+    <section id="methods">
+      <details open>
+        <summary class="sec-head"><h2><span class="secno">2</span>Methods and scope</h2></summary>
+        <p class="lead">How the data was produced and checked, and the inclusion/exclusion rule. Cite each external source where it is named<sup class="cite"><a href="#ref1">[1]</a></sup>.</p>
+        <p class="lead"><strong>Scope.</strong> Counts, date range, and anything held out. Note that every table and figure is numbered and CSV-backed<sup class="cite"><a href="#ref2">[2]</a></sup>.</p>
+      </details>
+    </section>
+
+    <!-- 3+. RESULTS SECTION: Hypothesis -> Methods -> Results, then the numbered exhibits. -->
+    <section id="result-a">
+      <details open>
+        <summary class="sec-head"><h2><span class="secno">3</span>First result</h2></summary>
+        <div class="hmr">
+          <p><span class="tag">Hypothesis.</span> What we expected to be true and why (the thing being tested).</p>
+          <p><span class="tag">Methods.</span> How we tested it, in one or two sentences.</p>
+          <p><span class="tag">Results.</span> What we found, in prose, pointing at the exhibits (Figure 1, Table 1). Fold any follow-up work into this narrative; do not label it "Follow-up".</p>
+        </div>
+
+        <!-- FIGURE: caption BELOW. -->
+        <div class="figure">
+          <div class="bar-row"><span class="lbl">category_one</span><div class="track"><div class="fill" style="width:100%;background:var(--accent)"></div></div><span class="n num">120</span></div>
+          <div class="bar-row"><span class="lbl">category_two</span><div class="track"><div class="fill" style="width:55%;background:var(--warn)"></div></div><span class="n num">66</span></div>
+          <div class="bar-row"><span class="lbl">category_three</span><div class="track"><div class="fill" style="width:20%;background:var(--bad)"></div></div><span class="n num">24</span></div>
+          <p class="cap"><strong>Figure 1.</strong> One-sentence description that lets the figure stand alone. Source: <code>where the data came from</code>.</p>
+        </div>
+
+        <!-- TABLE: caption ABOVE. -->
+        <p class="cap"><strong>Table 1. Short bold label of the table.</strong> One-sentence description. Source: <code>where the data came from</code>.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Group</th><th class="num">Count</th><th class="num">Value</th><th class="num">%</th></tr></thead>
+            <tbody>
+              <tr><td>Row one</td><td class="num">2,105</td><td class="num">2,070</td><td class="num">98.3%</td></tr>
+              <tr><td>Row two</td><td class="num">1,690</td><td class="num">1,671</td><td class="num">98.9%</td></tr>
+              <tr><td>Row three</td><td class="num">1,497</td><td class="num">1,497</td><td class="num">100.0%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <!-- SUMMARY: bullets only, each linking back to the exhibit that supports it. -->
+    <section id="summary">
+      <details open>
+        <summary class="sec-head"><h2><span class="secno">4</span>Summary</h2></summary>
+        <ul class="summary">
+          <li class="good"><strong>A headline finding.</strong> One sentence, referring back to its exhibit (Table 1).</li>
+          <li class="bad"><strong>Something that needs action.</strong> One sentence, with the exhibit reference (Figure 1).</li>
+          <li><strong>A neutral observation.</strong> One sentence.</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- REFERENCES: numbered <ol>, each <li> with an anchor id matching its [n]. -->
+    <section id="refs">
+      <details open>
+        <summary class="sec-head"><h2><span class="secno">5</span>References and data</h2></summary>
+        <ol class="refs">
+          <li id="ref1">External standard or source. Publisher, version, year. What it was used for.</li>
+          <li id="ref2">Underlying data: what generated the tables and figures, and where the source files live.</li>
+        </ol>
+      </details>
+    </section>
+
+    <div class="foot">
+      Provenance line: what generated this report, and any single scope caveat.
+    </div>
+  </main>
+</div>

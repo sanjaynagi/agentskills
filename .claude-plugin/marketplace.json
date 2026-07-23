@@ -8,7 +8,7 @@
     {
       "name": "agentskills",
       "source": "./plugins/agentskills",
-      "description": "Personal skill collection: build (concise engineering standards) and human (plain, human-sounding writing)."
+      "description": "Personal skill collection: build (concise engineering standards), human (plain, human-sounding writing), and scientific-report (scientific-paper-style HTML reports)."
     }
   ]
 }
