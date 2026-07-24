@@ -167,8 +167,8 @@
     <div class="brand">ORGANISATION</div>
     <div class="brand-sub">Report subtitle</div>
     <ol>
-      <li><a href="#abstract">Abstract</a></li>
       <li><a href="#summary-top">Summary</a></li>
+      <li><a href="#abstract">Abstract</a></li>
       <li><a href="#methods">Methods and scope</a></li>
       <li><a href="#result-a"><span>First result</span><span class="flag bad"></span></a></li>
       <li><a href="#summary">Summary</a></li>
@@ -190,18 +190,9 @@
     </header>
 
     <!-- 1. ABSTRACT: two short paragraphs, no exhibits, no citations. -->
-    <section id="abstract">
-      <details open>
-        <summary class="sec-head"><h2><span class="secno">1</span>Abstract</h2></summary>
-        <p class="lead">Paragraph one: what was tested and on what data. State the question and the dataset in plain terms.</p>
-        <p class="lead">Paragraph two: the headline results and the issues that need action. Give the numbers that matter and name what to fix.</p>
-      </details>
-    </section>
-
-    <!-- 2. SUMMARY (up front): the same bullets as the closing summary, so the reader sees key findings first. -->
     <section id="summary-top">
       <details open>
-        <summary class="sec-head"><h2><span class="secno">2</span>Summary</h2></summary>
+        <summary class="sec-head"><h2><span class="secno">1</span>Summary</h2></summary>
         <ul class="summary">
           <li class="good"><strong>A headline finding.</strong> One sentence, referring back to its exhibit (Table 1).</li>
           <li class="bad"><strong>Something that needs action.</strong> One sentence, with the exhibit reference (Figure 1).</li>
@@ -210,7 +201,14 @@
       </details>
     </section>
 
-    <!-- 3. METHODS AND SCOPE: how the data was produced and checked; the scope; citations to sources. -->
+    <section id="abstract">
+      <details open>
+        <summary class="sec-head"><h2><span class="secno">2</span>Abstract</h2></summary>
+        <p class="lead">Paragraph one: what was tested and on what data. State the question and the dataset in plain terms.</p>
+        <p class="lead">Paragraph two: the headline results and the issues that need action. Give the numbers that matter and name what to fix.</p>
+      </details>
+    </section>
+
     <section id="methods">
       <details open>
         <summary class="sec-head"><h2><span class="secno">3</span>Methods and scope</h2></summary>
@@ -219,7 +217,6 @@
       </details>
     </section>
 
-    <!-- 4+. RESULTS SECTION: Hypothesis -> Methods -> Results, then the numbered exhibits. -->
     <section id="result-a">
       <details open>
         <summary class="sec-head"><h2><span class="secno">4</span>First result</h2></summary>
@@ -252,7 +249,6 @@
       </details>
     </section>
 
-    <!-- SUMMARY (closing): same bullets as the up-front summary (Section 2). -->
     <section id="summary">
       <details open>
         <summary class="sec-head"><h2><span class="secno">5</span>Summary</h2></summary>
@@ -264,7 +260,6 @@
       </details>
     </section>
 
-    <!-- REFERENCES: numbered <ol>, each <li> with an anchor id matching its [n]. -->
     <section id="refs">
       <details open>
         <summary class="sec-head"><h2><span class="secno">6</span>References and data</h2></summary>
