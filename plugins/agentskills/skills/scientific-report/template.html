@@ -168,6 +168,7 @@
     <div class="brand-sub">Report subtitle</div>
     <ol>
       <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#summary-top">Summary</a></li>
       <li><a href="#methods">Methods and scope</a></li>
       <li><a href="#result-a"><span>First result</span><span class="flag bad"></span></a></li>
       <li><a href="#summary">Summary</a></li>
@@ -197,19 +198,31 @@
       </details>
     </section>
 
-    <!-- 2. METHODS AND SCOPE: how the data was produced and checked; the scope; citations to sources. -->
+    <!-- 2. SUMMARY (up front): the same bullets as the closing summary, so the reader sees key findings first. -->
+    <section id="summary-top">
+      <details open>
+        <summary class="sec-head"><h2><span class="secno">2</span>Summary</h2></summary>
+        <ul class="summary">
+          <li class="good"><strong>A headline finding.</strong> One sentence, referring back to its exhibit (Table 1).</li>
+          <li class="bad"><strong>Something that needs action.</strong> One sentence, with the exhibit reference (Figure 1).</li>
+          <li><strong>A neutral observation.</strong> One sentence.</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- 3. METHODS AND SCOPE: how the data was produced and checked; the scope; citations to sources. -->
     <section id="methods">
       <details open>
-        <summary class="sec-head"><h2><span class="secno">2</span>Methods and scope</h2></summary>
+        <summary class="sec-head"><h2><span class="secno">3</span>Methods and scope</h2></summary>
         <p class="lead">How the data was produced and checked, and the inclusion/exclusion rule. Cite each external source where it is named<sup class="cite"><a href="#ref1">[1]</a></sup>.</p>
         <p class="lead"><strong>Scope.</strong> Counts, date range, and anything held out. Note that every table and figure is numbered and CSV-backed<sup class="cite"><a href="#ref2">[2]</a></sup>.</p>
       </details>
     </section>
 
-    <!-- 3+. RESULTS SECTION: Hypothesis -> Methods -> Results, then the numbered exhibits. -->
+    <!-- 4+. RESULTS SECTION: Hypothesis -> Methods -> Results, then the numbered exhibits. -->
     <section id="result-a">
       <details open>
-        <summary class="sec-head"><h2><span class="secno">3</span>First result</h2></summary>
+        <summary class="sec-head"><h2><span class="secno">4</span>First result</h2></summary>
         <div class="hmr">
           <p><span class="tag">Hypothesis.</span> What we expected to be true and why (the thing being tested).</p>
           <p><span class="tag">Methods.</span> How we tested it, in one or two sentences.</p>
@@ -239,10 +252,10 @@
       </details>
     </section>
 
-    <!-- SUMMARY: bullets only, each linking back to the exhibit that supports it. -->
+    <!-- SUMMARY (closing): same bullets as the up-front summary (Section 2). -->
     <section id="summary">
       <details open>
-        <summary class="sec-head"><h2><span class="secno">4</span>Summary</h2></summary>
+        <summary class="sec-head"><h2><span class="secno">5</span>Summary</h2></summary>
         <ul class="summary">
           <li class="good"><strong>A headline finding.</strong> One sentence, referring back to its exhibit (Table 1).</li>
           <li class="bad"><strong>Something that needs action.</strong> One sentence, with the exhibit reference (Figure 1).</li>
@@ -254,7 +267,7 @@
     <!-- REFERENCES: numbered <ol>, each <li> with an anchor id matching its [n]. -->
     <section id="refs">
       <details open>
-        <summary class="sec-head"><h2><span class="secno">5</span>References and data</h2></summary>
+        <summary class="sec-head"><h2><span class="secno">6</span>References and data</h2></summary>
         <ol class="refs">
           <li id="ref1">External standard or source. Publisher, version, year. What it was used for.</li>
           <li id="ref2">Underlying data: what generated the tables and figures, and where the source files live.</li>

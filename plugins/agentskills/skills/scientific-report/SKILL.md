@@ -18,7 +18,7 @@ Build the page in this order. Number the sections (1, 2, 3…) in headings and i
    - **Hypothesis.** What we expected to be true and why (the thing being tested).
    - **Methods.** How we tested it. One or two sentences only. e.g. "We grouped every strain + panel + drug combination read two or more times and measured how well the repeat readings agree."
    - **Results.** What we found, in prose, pointing at the numbered exhibits ("Table 2 shows…", "see Figure 4"). Fold any follow-up analysis into this narrative as flowing prose; do not label it "Follow-up 1/2" or number the sub-steps. Bold a load-bearing sentence if it needs emphasis.
-5. **Summary.** Bullet points only. Each bullet states one finding and links back to the exhibit that supports it. Colour-code by severity if the template allows.
+5. **Summary, twice.** A bulleted summary appears both **near the top** (as its own section right after the abstract, so a reader sees the key findings before the detail) and **again at the end**. Use the same bullets in both places. Bullet points only; each bullet states one finding and links back to the exhibit that supports it, colour-coded by severity. The up-front copy may forward-reference tables and figures that appear later, which is expected for an executive summary.
 6. **References and data.** A numbered `<ol>` of any external standards/sources used, plus the provenance of the underlying data (source files/CSVs). Give each `<li>` an anchor id (`id="ref1"`, `id="ref2"`, …). Omit the section only if genuinely nothing was referenced; keep the data-provenance line regardless.
 
 ## Citations
