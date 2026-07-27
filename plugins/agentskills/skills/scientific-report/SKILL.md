@@ -32,6 +32,7 @@ Build the page in this order. Number the sections (1, 2, 3…) in headings and i
 - **Number everything** in one running sequence by order of appearance: Tables 1, 2, 3… and Figures 1, 2, 3… (independent counters). Use letter suffixes for tightly-related exhibits: Table 2a, Table 2b.
 - **Every exhibit has a caption** that lets it stand alone: `<strong>Table N.</strong> <plain description>. Source: <where the data came from>.` **Table captions go ABOVE the table; figure captions go BELOW the figure** (scientific-paper convention). In CSS, a `.cap` immediately followed by the table needs its top margin removed and a bottom margin added (e.g. `p.cap:has(+ .table-wrap) { margin-top: 0; margin-bottom: 10px; }`).
 - **Refer to every exhibit from the running text** by its number. An exhibit no sentence points to does not belong in the report.
+- **Captions carry their own terms.** A caption is read on its own, out of order, so spell out every acronym it uses even if the text already defined it, and name variables exactly as the text and the table headers name them. A caption that says "resistance ratio" for a column headed "RR" makes the reader guess whether they are the same quantity.
 
 ## Layout
 
@@ -44,6 +45,7 @@ Build the page in this order. Number the sections (1, 2, 3…) in headings and i
 ## Prose
 
 - Write the text with the **`human` skill**: plain, direct, scientific. Invoke it (or apply its rules) on the narrative before publishing.
+- **One term per concept, everywhere.** Fix the name of each group, variable, metric and technique when you first use it, then use that exact name in the prose, the summary bullets, the table headers and the captions. A synonym is not a style variation here; a reader meeting "assay panel" after "test panel" has to work out whether a second thing has been introduced. Define each acronym at first use and keep it consistent with the tables. Where the referent is a defined quantity, this beats any pull towards varied phrasing.
 - **No status pills or badges in headings** ("Action needed", "Mostly explained"). Severity belongs in the prose and, if useful, in the summary bullets' colour.
 - Neutral register. State the finding; do not sell it. No "crucial", "pivotal", "underscores".
 
@@ -52,7 +54,9 @@ Build the page in this order. Number the sections (1, 2, 3…) in headings and i
 1. **Start from `template.html`** in this skill's directory. Copy it, then replace the content between `<main>` and `</main>` and the nav list, keeping the CSS. It already carries everything this style needs: theme variables with a `@media (prefers-color-scheme: dark)` block and `[data-theme]` overrides; the shared `--measure` width; a sticky table-of-contents nav; collapsible `<details>`/`<summary>` sections with a chevron marker; the `.stat-strip` infographic; `.table-wrap`/`table` and a `.cap` caption class (with the table-caption-above rule); a `.figure` wrapper (no border or shadow); div-based chart primitives (`.bar-row`, `.stack`); superscript `sup.cite` citations; a `.summary` bullet list; and a `.refs` list. Do not add bordered/shadowed content cards. If you build from scratch instead, reproduce the same structure and constraints.
 2. **Self-contained only.** Inline all CSS/JS, embed any images as data URIs. No external requests (no CDN, fonts, or scripts). Do not add `<!DOCTYPE>`, `<html>`, `<head>`, or `<body>` tags — the Artifact wrapper injects them. Start the file with `<title>`.
 3. **Theme-aware.** Keep the dark/light blocks so the page renders correctly in either theme.
-4. **Verify before publishing.** Check tag balance (`<div>`/`</div>`, `<table>`/`</table>`, `<section>`, `<p>`), scan for em dashes (expect zero), and confirm the Figure/Table numbers are sequential with no gaps and each is referenced in text.
+4. **Verify before publishing.** Check tag balance (`<div>`/`</div>`, `<table>`/`</table>`, `<section>`, `<p>`), scan for em dashes (expect zero), and confirm the Figure/Table numbers are sequential with no gaps and each is referenced in text. Then:
+   - **Reconcile every number that appears twice.** The same figure typically lands in the stat strip, the abstract, the summary bullets and a table. Take the table as the source of truth and check the others against it. Check that percentages match the counts they came from, that totals add up, and that decimal places reflect the real precision rather than whatever the analysis printed. A headline number contradicting its own table is the most damaging error this format can ship.
+   - **Check the citations resolve both ways.** Every `[n]` marker points at a reference item that exists, and every item in the `<ol>` is cited at least once in the text. An uncited reference is either a missing citation or a reference that should be cut.
 5. **Publish with the `Artifact` tool.** Set a stable `<title>`, a one-sentence `description`, a `favicon` emoji kept constant across redeploys, and a short `label` (max 60 chars). To update an existing report, pass the same `url` so the link is preserved.
 
 ## Verification snippet
@@ -64,4 +68,11 @@ echo "table: $(grep -o '<table' $f|wc -l) / $(grep -o '</table>' $f|wc -l)"
 echo "p:     $(grep -o '<p[ >]' $f|wc -l) / $(grep -o '</p>' $f|wc -l)"
 echo "em dashes (want 0): $(grep -o '—' $f|wc -l)"
 grep -o '<strong>Table [0-9a-z]*\.' $f; grep -o '<strong>Figure [0-9]*\.' $f
+
+# citations resolve both ways: "<" = cited but no such reference, ">" = listed but never cited
+diff <(grep -o 'href="#ref[0-9]*"' $f | grep -o '[0-9]*' | sort -un) \
+     <(grep -o 'id="ref[0-9]*"'    $f | grep -o '[0-9]*' | sort -un) \
+  && echo "citations OK"
 ```
+
+Number reconciliation stays a manual read: pull the stat-strip values and the abstract's figures, and check each against the table it came from.
