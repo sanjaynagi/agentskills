@@ -5,7 +5,7 @@ description: Use when asked to produce or restructure an HTML findings/analysis 
 
 # Scientific report
 
-Turn an analysis into a single self-contained HTML page that reads like a scientific paper: a new reader should follow it top to bottom without prior context. Publish it as an Artifact.
+Turn an analysis into a single self-contained HTML page that reads like a scientific paper: a new reader should follow it top to bottom without prior context. Publish it as an Artifact where that tool exists, otherwise save a standalone HTML file (step 5).
 
 ## Non-negotiable structure
 
@@ -52,12 +52,31 @@ Build the page in this order. Number the sections (1, 2, 3…) in headings and i
 ## Build workflow
 
 1. **Start from `template.html`** in this skill's directory. Copy it, then replace the content between `<main>` and `</main>` and the nav list, keeping the CSS. It already carries everything this style needs: theme variables with a `@media (prefers-color-scheme: dark)` block and `[data-theme]` overrides; the shared `--measure` width; a sticky table-of-contents nav; collapsible `<details>`/`<summary>` sections with a chevron marker; the `.stat-strip` infographic; `.table-wrap`/`table` and a `.cap` caption class (with the table-caption-above rule); a `.figure` wrapper (no border or shadow); div-based chart primitives (`.bar-row`, `.stack`); superscript `sup.cite` citations; a `.summary` bullet list; and a `.refs` list. Do not add bordered/shadowed content cards. If you build from scratch instead, reproduce the same structure and constraints.
-2. **Self-contained only.** Inline all CSS/JS, embed any images as data URIs. No external requests (no CDN, fonts, or scripts). Do not add `<!DOCTYPE>`, `<html>`, `<head>`, or `<body>` tags — the Artifact wrapper injects them. Start the file with `<title>`.
+2. **Self-contained only.** Inline all CSS/JS, embed any images as data URIs. No external requests (no CDN, fonts, or scripts). Whether the file needs a document wrapper depends on where it is going, so decide that with step 5.
 3. **Theme-aware.** Keep the dark/light blocks so the page renders correctly in either theme.
 4. **Verify before publishing.** Check tag balance (`<div>`/`</div>`, `<table>`/`</table>`, `<section>`, `<p>`), scan for em dashes (expect zero), and confirm the Figure/Table numbers are sequential with no gaps and each is referenced in text. Then:
    - **Reconcile every number that appears twice.** The same figure typically lands in the stat strip, the abstract, the summary bullets and a table. Take the table as the source of truth and check the others against it. Check that percentages match the counts they came from, that totals add up, and that decimal places reflect the real precision rather than whatever the analysis printed. A headline number contradicting its own table is the most damaging error this format can ship.
    - **Check the citations resolve both ways.** Every `[n]` marker points at a reference item that exists, and every item in the `<ol>` is cited at least once in the text. An uncited reference is either a missing citation or a reference that should be cut.
-5. **Publish with the `Artifact` tool.** Set a stable `<title>`, a one-sentence `description`, a `favicon` emoji kept constant across redeploys, and a short `label` (max 60 chars). To update an existing report, pass the same `url` so the link is preserved.
+5. **Deliver it, by whichever route the environment offers.**
+   - **If an `Artifact` tool is available, publish with it.** Keep the file a fragment: no `<!DOCTYPE>`, `<html>`, `<head>` or `<body>` tags, starting at `<title>`, because the wrapper injects them. Set a stable `<title>`, a one-sentence `description`, a `favicon` emoji kept constant across redeploys, and a short `label` (max 60 chars). To update an existing report, pass the same `url` so the link is preserved.
+   - **Otherwise write a complete standalone HTML file** the user can open in a browser, and tell them the path. Add the wrapper yourself, putting the `<title>` and `<style>` in the `<head>` and everything else in the `<body>`:
+
+     ```html
+     <!DOCTYPE html>
+     <html lang="en">
+     <head>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title>…</title>
+     <style>…</style>
+     </head>
+     <body>
+     …the .shell / nav / main content…
+     </body>
+     </html>
+     ```
+
+     The template's CSS carries its own reset and `body` rules, so the standalone file renders the same as the published version. It stays theme-aware through the `prefers-color-scheme` block; only the viewer-driven `[data-theme]` toggle is specific to Artifacts, and leaving those rules in place is harmless.
 
 ## Verification snippet
 
