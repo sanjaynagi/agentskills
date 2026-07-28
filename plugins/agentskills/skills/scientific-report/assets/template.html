@@ -5,9 +5,10 @@
   Rules (see SKILL.md): abstract, methods/scope, then one section per analysis,
   each opening Hypothesis -> Methods (1-2 sentences) -> Results. Number every
   table and figure and refer to each from the text. Table captions ABOVE the
-  table, figure captions BELOW. No callout boxes. No em dashes. Cite sources
-  with superscript [n] links to the references list.
-  Do NOT add <!DOCTYPE>/<html>/<head>/<body>; the Artifact wrapper injects them.
+  table, figure captions BELOW. No callout boxes. Cite sources with superscript
+  [n] links to the references list. Prefer simpler punctuation
+  to em dashes, but retain an em dash when it is genuinely clearest.
+  This asset is an HTML fragment. Add a document wrapper for standalone delivery.
 -->
 <style>
   :root {
@@ -18,7 +19,6 @@
     --warn: #B4750E; --warn-soft: #F6E7CE;
     --bad: #B23A3A; --bad-soft: #F6DDDA;
     --line: #D8E3E0;
-    --shadow: 0 1px 2px rgba(16,32,29,0.04), 0 8px 24px rgba(16,32,29,0.05);
     /* shared content width: text and exhibits align to this */
     --measure: 900px;
   }
@@ -30,7 +30,6 @@
     --warn: #E0A64C; --warn-soft: #34280F;
     --bad: #E2726B; --bad-soft: #351C1B;
     --line: #1E2E29;
-    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -41,7 +40,6 @@
       --warn: #E0A64C; --warn-soft: #34280F;
       --bad: #E2726B; --bad-soft: #351C1B;
       --line: #1E2E29;
-      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
     }
   }
 
@@ -88,6 +86,7 @@
   header.masthead { padding: 36px 0 28px; border-bottom: 1px solid var(--line); margin-bottom: 32px; }
   .eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-ink); margin: 0 0 10px; }
   header.masthead h1 { font-size: clamp(28px, 4vw, 38px); margin: 0 0 18px; line-height: 1.12; }
+  header.masthead .lede { max-width: var(--measure); margin: -6px 0 20px; color: var(--muted); font-size: 16px; }
 
   .stat-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; max-width: var(--measure); }
   .stat { background: var(--surface); padding: 14px 16px; }
@@ -120,7 +119,7 @@
   .cap { font-size: 12.5px; color: var(--muted); margin-top: 8px; line-height: 1.5; max-width: var(--measure); }
   .cap strong { color: var(--ink); font-weight: 700; }
   /* table caption sits ABOVE the table; figure caption stays BELOW */
-  p.cap:has(+ .table-wrap) { margin-top: 0; margin-bottom: 10px; }
+  p.table-cap { margin-top: 0; margin-bottom: 10px; }
 
   .table-wrap { overflow-x: auto; margin-top: 14px; border: 1px solid var(--line); border-radius: 10px; max-width: var(--measure); }
   .figure .table-wrap { margin-top: 0; }
@@ -155,6 +154,11 @@
   ol.refs li { margin-bottom: 8px; max-width: var(--measure); }
   ol.refs code { background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
 
+  dl.glossary { display: grid; grid-template-columns: minmax(120px, 180px) minmax(0, 1fr); gap: 8px 18px; max-width: var(--measure); }
+  dl.glossary dt { font-weight: 700; }
+  dl.glossary dd { margin: 0; color: var(--muted); }
+  @media (max-width: 560px) { dl.glossary { grid-template-columns: 1fr; gap: 2px; } dl.glossary dd { margin-bottom: 10px; } }
+
   .foot { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12.5px; }
   .foot code { background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
 
@@ -172,6 +176,7 @@
       <li><a href="#methods">Methods and scope</a></li>
       <li><a href="#result-a"><span>First result</span><span class="flag bad"></span></a></li>
       <li><a href="#summary">Summary</a></li>
+      <li><a href="#glossary">Glossary</a></li>
       <li><a href="#refs">References</a></li>
     </ol>
   </nav>
@@ -180,6 +185,7 @@
     <header class="masthead">
       <p class="eyebrow">Report category</p>
       <h1>Report title: a clear, specific statement of what this is</h1>
+      <p class="lede">One sentence stating the question this report answers and why the analysis was undertaken.</p>
       <!-- Infographic: the headline numbers at a glance. -->
       <div class="stat-strip">
         <div class="stat"><div class="v num">000</div><div class="l">Metric one</div></div>
@@ -189,13 +195,13 @@
       </div>
     </header>
 
-    <!-- 1. ABSTRACT: two short paragraphs, no exhibits, no citations. -->
+    <!-- 1. SUMMARY: concise findings with links to supporting exhibits. -->
     <section id="summary-top">
       <details open>
         <summary class="sec-head"><h2><span class="secno">1</span>Summary</h2></summary>
         <ul class="summary">
-          <li class="good"><strong>A headline finding.</strong> One sentence, referring back to its exhibit (Table 1).</li>
-          <li class="bad"><strong>Something that needs action.</strong> One sentence, with the exhibit reference (Figure 1).</li>
+          <li class="good"><strong>Within expectation: a headline finding.</strong> One sentence, referring back to its exhibit (Table 1).</li>
+          <li class="bad"><strong>Action needed: a material issue.</strong> One sentence, with the exhibit reference (Figure 1).</li>
           <li><strong>A neutral observation.</strong> One sentence.</li>
         </ul>
       </details>
@@ -213,7 +219,7 @@
       <details open>
         <summary class="sec-head"><h2><span class="secno">3</span>Methods and scope</h2></summary>
         <p class="lead">How the data was produced and checked, and the inclusion/exclusion rule. Cite each external source where it is named<sup class="cite"><a href="#ref1">[1]</a></sup>.</p>
-        <p class="lead"><strong>Scope.</strong> Counts, date range, and anything held out. Note that every table and figure is numbered and CSV-backed<sup class="cite"><a href="#ref2">[2]</a></sup>.</p>
+        <p class="lead"><strong>Scope.</strong> Counts, date range, and anything held out. State the analysis population or denominator needed to interpret the results.</p>
       </details>
     </section>
 
@@ -221,24 +227,26 @@
       <details open>
         <summary class="sec-head"><h2><span class="secno">4</span>First result</h2></summary>
         <div class="hmr">
-          <p><span class="tag">Hypothesis.</span> What we expected to be true and why (the thing being tested).</p>
+          <p><span class="tag">Hypothesis.</span> What we expected to be true and why. For exploratory work, state the question being investigated without inventing a prior hypothesis.</p>
           <p><span class="tag">Methods.</span> How we tested it, in one or two sentences.</p>
           <p><span class="tag">Results.</span> What we found, in prose, pointing at the exhibits (Figure 1, Table 1). Fold any follow-up work into this narrative; do not label it "Follow-up".</p>
         </div>
 
         <!-- FIGURE: caption BELOW. -->
         <div class="figure">
-          <div class="bar-row"><span class="lbl">category_one</span><div class="track"><div class="fill" style="width:100%;background:var(--accent)"></div></div><span class="n num">120</span></div>
-          <div class="bar-row"><span class="lbl">category_two</span><div class="track"><div class="fill" style="width:55%;background:var(--warn)"></div></div><span class="n num">66</span></div>
-          <div class="bar-row"><span class="lbl">category_three</span><div class="track"><div class="fill" style="width:20%;background:var(--bad)"></div></div><span class="n num">24</span></div>
+          <div role="img" aria-label="Category one: 120; category two: 66; category three: 24.">
+            <div class="bar-row"><span class="lbl">category_one</span><div class="track"><div class="fill" style="width:100%;background:var(--accent)"></div></div><span class="n num">120</span></div>
+            <div class="bar-row"><span class="lbl">category_two</span><div class="track"><div class="fill" style="width:55%;background:var(--warn)"></div></div><span class="n num">66</span></div>
+            <div class="bar-row"><span class="lbl">category_three</span><div class="track"><div class="fill" style="width:20%;background:var(--bad)"></div></div><span class="n num">24</span></div>
+          </div>
           <p class="cap"><strong>Figure 1.</strong> One-sentence description that lets the figure stand alone. Source: <code>where the data came from</code>.</p>
         </div>
 
         <!-- TABLE: caption ABOVE. -->
-        <p class="cap"><strong>Table 1. Short bold label of the table.</strong> One-sentence description. Source: <code>where the data came from</code>.</p>
+        <p class="cap table-cap"><strong>Table 1. Short bold label of the table.</strong> One-sentence description. Source: <code>where the data came from</code>.</p>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Group</th><th class="num">Count</th><th class="num">Value</th><th class="num">%</th></tr></thead>
+            <thead><tr><th scope="col">Group</th><th scope="col" class="num">Count</th><th scope="col" class="num">Value</th><th scope="col" class="num">%</th></tr></thead>
             <tbody>
               <tr><td>Row one</td><td class="num">2,105</td><td class="num">2,070</td><td class="num">98.3%</td></tr>
               <tr><td>Row two</td><td class="num">1,690</td><td class="num">1,671</td><td class="num">98.9%</td></tr>
@@ -253,20 +261,33 @@
       <details open>
         <summary class="sec-head"><h2><span class="secno">5</span>Summary</h2></summary>
         <ul class="summary">
-          <li class="good"><strong>A headline finding.</strong> One sentence, referring back to its exhibit (Table 1).</li>
-          <li class="bad"><strong>Something that needs action.</strong> One sentence, with the exhibit reference (Figure 1).</li>
+          <li class="good"><strong>Within expectation: a headline finding.</strong> One sentence, referring back to its exhibit (Table 1).</li>
+          <li class="bad"><strong>Action needed: a material issue.</strong> One sentence, with the exhibit reference (Figure 1).</li>
           <li><strong>A neutral observation.</strong> One sentence.</li>
         </ul>
       </details>
     </section>
 
+    <!-- OPTIONAL: remove this section and its nav entry if no glossary is needed. -->
+    <section id="glossary">
+      <details open>
+        <summary class="sec-head"><h2><span class="secno">6</span>Glossary</h2></summary>
+        <dl class="glossary">
+          <dt>Specialist term</dt>
+          <dd>A short definition in the precise sense used in this report.</dd>
+          <dt>ABC</dt>
+          <dd>Expanded term and a plain-language explanation.</dd>
+        </dl>
+      </details>
+    </section>
+
     <section id="refs">
       <details open>
-        <summary class="sec-head"><h2><span class="secno">6</span>References and data</h2></summary>
+        <summary class="sec-head"><h2><span class="secno">7</span>References and data</h2></summary>
         <ol class="refs">
           <li id="ref1">External standard or source. Publisher, version, year. What it was used for.</li>
-          <li id="ref2">Underlying data: what generated the tables and figures, and where the source files live.</li>
         </ol>
+        <p class="lead"><strong>Data provenance.</strong> What generated the tables and figures, where the source files live, and the relevant data or analysis version.</p>
       </details>
     </section>
 

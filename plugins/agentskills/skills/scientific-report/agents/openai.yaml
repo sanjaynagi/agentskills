@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scientific Report"
+  short_description: "Build clear, evidence-led scientific HTML reports"
+  default_prompt: "Use $scientific-report to turn this analysis into a clear, interpretable, self-contained HTML report."

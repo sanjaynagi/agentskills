@@ -1,97 +1,78 @@
 ---
 name: scientific-report
-description: Use when asked to produce or restructure an HTML findings/analysis report in a scientific-paper style (e.g. "make an HTML report", "write this up like a paper", "scientific report"). Builds a self-contained, theme-aware HTML page with an abstract, a methods/scope section, Hypothesis→Methods→Results sections, numbered and captioned tables/figures cross-referenced in the text, a bulleted summary, and references. Pairs with the `human` skill for prose.
+description: Create or restructure a self-contained HTML findings or analysis report in a readable scientific-paper style. Use for exploratory data science, experimental results, validation studies, benchmarking, and other evidence-led analyses that need an abstract, reproducible methods and scope, interpretable results, numbered exhibits, data provenance, and references. Do not use for general dashboards or reports without an analytical evidence structure. Pair with the `human` skill for prose.
 ---
 
 # Scientific report
 
-Turn an analysis into a single self-contained HTML page that reads like a scientific paper: a new reader should follow it top to bottom without prior context. Publish it as an Artifact where that tool exists, otherwise save a standalone HTML file (step 5).
+Turn an analysis into a single self-contained HTML page that a new reader can understand from top to bottom without prior context. Prioritise readability, interpretability, and scientific accuracy. Save a standalone HTML file unless the environment provides a suitable publishing tool.
 
-## Non-negotiable structure
+Keep the workflow portable across Codex, Claude Code, and other skill-compatible agents. Resolve `assets/` and `scripts/` relative to this `SKILL.md`, not relative to the user's working directory. Do not depend on product-specific publishing tools or metadata.
 
-Build the page in this order. Number the sections (1, 2, 3…) in headings and in the table of contents.
+## Structure
 
-1. **Title block.** A clear, specific `<h1>` (no status labels in it), a one-sentence lede, and an **infographic**: a compact strip of the headline numbers (`.stat-strip` in the template). This is the at-a-glance result.
-2. **Abstract.** One concise section, two short paragraphs at most. Paragraph 1: what was tested and on what data. Paragraph 2: the headline results and the issues that need action. No exhibits, no citations to tables.
-3. **Methods and scope.** How the data was produced and checked, the inclusion/exclusion rule, and the scope (counts, date range, what was held out). One place, stated once.
-4. **Results sections**, one per analysis. Every one opens with three tagged sentences in this exact order:
-   - **Hypothesis.** What we expected to be true and why (the thing being tested).
-   - **Methods.** How we tested it. One or two sentences only. e.g. "We grouped every strain + panel + drug combination read two or more times and measured how well the repeat readings agree."
-   - **Results.** What we found, in prose, pointing at the numbered exhibits ("Table 2 shows…", "see Figure 4"). Fold any follow-up analysis into this narrative as flowing prose; do not label it "Follow-up 1/2" or number the sub-steps. Bold a load-bearing sentence if it needs emphasis.
-5. **Summary, twice.** A bulleted summary appears both **at the very top** (its own section directly below the title/infographic and above the abstract, so a reader sees the key findings first) and **again at the end**. Use the same bullets in both places. Bullet points only; each bullet states one finding and links back to the exhibit that supports it, colour-coded by severity. The up-front copy may forward-reference tables and figures that appear later, which is expected for an executive summary.
-6. **References and data.** A numbered `<ol>` of any external standards/sources used, plus the provenance of the underlying data (source files/CSVs). Give each `<li>` an anchor id (`id="ref1"`, `id="ref2"`, …). Omit the section only if genuinely nothing was referenced; keep the data-provenance line regardless.
+Build the page in this order. Number the sections in the headings and table of contents.
+
+1. **Title block.** Write a clear, specific `<h1>`, followed by a one-sentence lede that states the report's question or purpose. Add a compact `.stat-strip` only when a few headline numbers genuinely help orientation.
+2. **Summary.** Place a short bulleted summary directly below the title block. Each bullet states one finding in plain language and links to its supporting exhibit. Use severity colour only when severity is meaningful, and always state the meaning in words rather than relying on colour.
+3. **Abstract.** Use no more than two short paragraphs. State what was analysed and on what data, then give the headline findings and any issues that need action. Do not include exhibits or citations.
+4. **Methods and scope.** State how the data was produced and checked, the inclusion and exclusion rules, the scope, and anything held out. Keep this information in one place.
+5. **Results sections.** Use one section per analysis. Open each with:
+   - **Hypothesis.** State what was expected and why. For exploratory work, state the question or pattern being investigated without inventing a prior hypothesis.
+   - **Methods.** Explain how it was tested in one or two sentences.
+   - **Results.** State what was found and point to the numbered exhibits. Fold follow-up analyses into the narrative rather than labelling them as procedural steps.
+6. **Conclusions.** Repeat or lightly consolidate the opening summary bullets. Do not introduce new evidence here.
+7. **Glossary, optional.** Include a short definition list when specialist terms, acronyms, or similarly named measures would otherwise slow a non-specialist reader. Define only terms used in the report; do not turn it into a general reference.
+8. **References and data.** List external sources in a numbered `<ol>`. Give each reference an anchor ID (`ref1`, `ref2`, and so on). State data provenance separately and always include it, even when there are no external references.
+
+## Interpretability and scientific integrity
+
+- Make each result answer four questions: what was compared or measured, on which observations, what was found, and why it matters.
+- State denominators or analysis populations wherever a count, proportion, or rate could otherwise be misread. Report missing data and material exclusions when they affect interpretation.
+- Report uncertainty when it is meaningful and available. Do not manufacture confidence intervals, significance tests, or formal hypotheses for an exploratory analysis that did not produce them.
+- Distinguish observation from explanation. Use causal language only when the design supports it. Mark post hoc and exploratory interpretations as such.
+- Prefer effect sizes and absolute differences over significance alone. If a statistical test is reported, name it and give enough context to interpret it.
+- Separate evidence from recommendation: first state what the analysis shows, then state the operational implication.
+- Keep one term per concept across prose, summary bullets, table headers, captions, and glossary. Define acronyms at first use.
+- Use plain, direct language with the `human` skill. Prefer short sentences and concrete verbs. Discourage em dashes because they often hide sentence structure; use one only when it is clearer than a full stop, comma, colon, or parentheses.
+- Use a neutral register. Do not sell the finding or use words such as “crucial”, “pivotal”, or “underscores”.
+
+Apply these checks in proportion to the analysis. A descriptive or exploratory report does not need inferential statistics merely to look scientific.
 
 ## Citations
 
-- Where the text names a reference (a standard, a vendor, a dataset, a repository), cite it with a **superscript square-bracket link** to the matching entry in the references list: `<sup class="cite"><a href="#ref1">[1]</a></sup>`. The bracket number matches the reference's position in the `<ol>`.
-- Cite at the natural point of mention (usually first mention in Methods, plus wherever a specific claim rests on that source). A number may be reused wherever the same source is mentioned. Do not cite inside the abstract.
-- Style the marker small and superscript, e.g. `sup.cite { font-size: 0.72em; line-height: 0; } sup.cite a { text-decoration: none; font-weight: 600; }`, and give the reference items `scroll-margin-top` so the in-page jump lands cleanly.
+- Cite a named standard, vendor, dataset, repository, or source at its natural point of mention with `<sup class="cite"><a href="#ref1">[1]</a></sup>`.
+- Match the bracket number to the source's position in the reference list. Reuse a number for repeated mentions of the same source.
+- Do not cite inside the abstract. Do not treat the report's own data-provenance statement as an external citation.
 
 ## Tables and figures
 
-- **Number everything** in one running sequence by order of appearance: Tables 1, 2, 3… and Figures 1, 2, 3… (independent counters). Use letter suffixes for tightly-related exhibits: Table 2a, Table 2b.
-- **Every exhibit has a caption** that lets it stand alone: `<strong>Table N.</strong> <plain description>. Source: <where the data came from>.` **Table captions go ABOVE the table; figure captions go BELOW the figure** (scientific-paper convention). In CSS, a `.cap` immediately followed by the table needs its top margin removed and a bottom margin added (e.g. `p.cap:has(+ .table-wrap) { margin-top: 0; margin-bottom: 10px; }`).
-- **Refer to every exhibit from the running text** by its number. An exhibit no sentence points to does not belong in the report.
-- **Captions carry their own terms.** A caption is read on its own, out of order, so spell out every acronym it uses even if the text already defined it, and name variables exactly as the text and the table headers name them. A caption that says "resistance ratio" for a column headed "RR" makes the reader guess whether they are the same quantity.
+- Number tables and figures independently by order of appearance. Use letter suffixes only for tightly related exhibits such as Table 2a and Table 2b.
+- Give every exhibit a standalone caption with its source. Put table captions above tables and figure captions below figures.
+- Refer to every exhibit from the narrative by number. Remove any exhibit that the prose does not interpret.
+- Spell out caption acronyms and use exactly the same variable names as the prose and headers.
+- Do not add a separate title heading above an exhibit. Put the framing in its caption.
+- Use table headers with `scope="col"` or `scope="row"`. Give charts an accessible label and preserve their values in nearby prose or a table. Never use colour as the sole carrier of meaning.
 
 ## Layout
 
-- **No callout boxes.** Do not wrap findings, tables, or figures in bordered/shadowed cards. Write findings as plain prose paragraphs. A key sentence can lead with a bolded clause, but it stays in the flow of text, not in a box.
-- **No title heading above a table or figure.** The exhibit's only label is its caption beneath it. Any framing you would have put in a heading ("First check: …") goes into the caption instead, where a leading clause may be bold: `<strong>Table 2a. First check: off-scale ceilings that belong to a different panel.</strong> <rest of caption>. Source: …`.
-- **Enumerated sub-points are bullet lists, not boxes.** When a section breaks a finding into causes, factors, or cases, use a plain bullet list with a bolded lead per item. Do not give each bullet its own embedded figure; keep the shared figure (if any) once, at section level.
-- **Collapsible sections.** Wrap each section's body in `<details open>` with the numbered heading in a `<summary>`, so a reader can fold sections away. Keep them open by default. Style the summary with a rotating chevron (`::before` marker) and remove the native disclosure triangle. Note this changes CSS child selectors: target `section > details > p` and use class selectors (e.g. `.lead`) rather than `section > .lead`.
-- **One shared content width for text and exhibits.** Text and exhibits must align to the same left and right edges. Define one width variable (e.g. `--measure: 900px`) and apply it to both the prose blocks and the exhibit wrappers, so neither is narrower than the other. Prefer a generous measure (roughly 850–950px) that lets wide tables fit without shrinking the text; a genuinely over-wide table can still scroll inside its own `overflow-x: auto` wrapper. Do not shrink figures/tables to a narrow text column, and do not leave text narrower than the exhibits.
-
-## Prose
-
-- Write the text with the **`human` skill**: plain, direct, scientific. Invoke it (or apply its rules) on the narrative before publishing.
-- **One term per concept, everywhere.** Fix the name of each group, variable, metric and technique when you first use it, then use that exact name in the prose, the summary bullets, the table headers and the captions. A synonym is not a style variation here; a reader meeting "assay panel" after "test panel" has to work out whether a second thing has been introduced. Define each acronym at first use and keep it consistent with the tables. Where the referent is a defined quantity, this beats any pull towards varied phrasing.
-- **No status pills or badges in headings** ("Action needed", "Mostly explained"). Severity belongs in the prose and, if useful, in the summary bullets' colour.
-- Neutral register. State the finding; do not sell it. No "crucial", "pivotal", "underscores".
+- Do not wrap findings or exhibits in shadowed callout cards. Keep findings in the prose flow.
+- Use bullet lists for causes, factors, or cases rather than a grid of boxes.
+- Wrap section bodies in `<details open>` with their numbered headings in `<summary>`.
+- Align prose and exhibits to the same shared width. Let genuinely wide tables scroll inside an `overflow-x: auto` wrapper.
+- Keep inline CSS and JavaScript, embed images as data URIs, and make no external requests.
+- Preserve light and dark theme variables.
 
 ## Build workflow
 
-1. **Start from `template.html`** in this skill's directory. Copy it, then replace the content between `<main>` and `</main>` and the nav list, keeping the CSS. It already carries everything this style needs: theme variables with a `@media (prefers-color-scheme: dark)` block and `[data-theme]` overrides; the shared `--measure` width; a sticky table-of-contents nav; collapsible `<details>`/`<summary>` sections with a chevron marker; the `.stat-strip` infographic; `.table-wrap`/`table` and a `.cap` caption class (with the table-caption-above rule); a `.figure` wrapper (no border or shadow); div-based chart primitives (`.bar-row`, `.stack`); superscript `sup.cite` citations; a `.summary` bullet list; and a `.refs` list. Do not add bordered/shadowed content cards. If you build from scratch instead, reproduce the same structure and constraints.
-2. **Self-contained only.** Inline all CSS/JS, embed any images as data URIs. No external requests (no CDN, fonts, or scripts). Whether the file needs a document wrapper depends on where it is going, so decide that with step 5.
-3. **Theme-aware.** Keep the dark/light blocks so the page renders correctly in either theme.
-4. **Verify before publishing.** Check tag balance (`<div>`/`</div>`, `<table>`/`</table>`, `<section>`, `<p>`), scan for em dashes (expect zero), and confirm the Figure/Table numbers are sequential with no gaps and each is referenced in text. Then:
-   - **Reconcile every number that appears twice.** The same figure typically lands in the stat strip, the abstract, the summary bullets and a table. Take the table as the source of truth and check the others against it. Check that percentages match the counts they came from, that totals add up, and that decimal places reflect the real precision rather than whatever the analysis printed. A headline number contradicting its own table is the most damaging error this format can ship.
-   - **Check the citations resolve both ways.** Every `[n]` marker points at a reference item that exists, and every item in the `<ol>` is cited at least once in the text. An uncited reference is either a missing citation or a reference that should be cut.
-5. **Deliver it, by whichever route the environment offers.**
-   - **If an `Artifact` tool is available, publish with it.** Keep the file a fragment: no `<!DOCTYPE>`, `<html>`, `<head>` or `<body>` tags, starting at `<title>`, because the wrapper injects them. Set a stable `<title>`, a one-sentence `description`, a `favicon` emoji kept constant across redeploys, and a short `label` (max 60 chars). To update an existing report, pass the same `url` so the link is preserved.
-   - **Otherwise write a complete standalone HTML file** the user can open in a browser, and tell them the path. Add the wrapper yourself, putting the `<title>` and `<style>` in the `<head>` and everything else in the `<body>`:
+1. Copy `assets/template.html`. Replace the content inside `<main>` and update the navigation while keeping the CSS and page structure. Remove optional elements that do not help the report.
+2. Use the template as an HTML fragment only when a publishing tool explicitly requires one. Otherwise add a standards-compliant document wrapper with language, charset, viewport, title, and body elements.
+3. Reconcile repeated numbers against their source table or calculation. Check totals, denominators, percentages, and displayed precision.
+4. Run `python3 /path/to/scientific-report/scripts/validate_report.py REPORT.html`, resolving the script from this skill's directory. Fix all errors. Review warnings rather than suppressing them mechanically.
+5. Read the finished report from top to bottom as a new reader. Confirm that each section explains its purpose, every exhibit is interpreted, specialist terms are defined or removed, and conclusions do not outrun the evidence.
 
-     ```html
-     <!DOCTYPE html>
-     <html lang="en">
-     <head>
-     <meta charset="utf-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1">
-     <title>…</title>
-     <style>…</style>
-     </head>
-     <body>
-     …the .shell / nav / main content…
-     </body>
-     </html>
-     ```
+## Delivery
 
-     The template's CSS carries its own reset and `body` rules, so the standalone file renders the same as the published version. It stays theme-aware through the `prefers-color-scheme` block; only the viewer-driven `[data-theme]` toggle is specific to Artifacts, and leaving those rules in place is harmless.
-
-## Verification snippet
-
-```bash
-f=report.html
-echo "div:   $(grep -o '<div' $f|wc -l) / $(grep -o '</div>' $f|wc -l)"
-echo "table: $(grep -o '<table' $f|wc -l) / $(grep -o '</table>' $f|wc -l)"
-echo "p:     $(grep -o '<p[ >]' $f|wc -l) / $(grep -o '</p>' $f|wc -l)"
-echo "em dashes (want 0): $(grep -o '—' $f|wc -l)"
-grep -o '<strong>Table [0-9a-z]*\.' $f; grep -o '<strong>Figure [0-9]*\.' $f
-
-# citations resolve both ways: "<" = cited but no such reference, ">" = listed but never cited
-diff <(grep -o 'href="#ref[0-9]*"' $f | grep -o '[0-9]*' | sort -un) \
-     <(grep -o 'id="ref[0-9]*"'    $f | grep -o '[0-9]*' | sort -un) \
-  && echo "citations OK"
-```
-
-Number reconciliation stays a manual read: pull the stat-strip values and the abstract's figures, and check each against the table it came from.
+- When publishing through a tool, follow that tool's current document-wrapper and metadata requirements.
+- Otherwise save a complete standalone HTML file and give the user its path.
+- Keep the output self-contained and verify it in both light and dark themes when visual inspection is available.
