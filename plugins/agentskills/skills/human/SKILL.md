@@ -1,6 +1,6 @@
 ---
 name: human
-description: Use only when explicitly invoked (`human` skill, "make this sound human", "plain English this") or named as the requested skill lens. Rewrites text to be plain and direct, and strips the tells that make writing sound machine-generated. Plain-English editing and AI-pattern removal in one pass.
+description: Use only when explicitly invoked (`human` skill, "make this sound human", "plain English this") or named as the requested skill lens. Rewrites text to be plain and direct, and strips the tells that make writing sound machine-generated. Plain-English editing and AI-pattern removal in one pass, in UK English.
 ---
 
 # Human
@@ -14,7 +14,8 @@ Who reads this, and what do they need to do or know afterwards? Plain is relativ
 ## What to change
 
 - **"You," active voice, common words.** "You may apply," not "applicants may apply." "We sent it," not "it was sent." "Use," not "utilize." "Help," not "facilitate."
-- **Verbs, not nominalizations.** "Decide" beats "make a decision."
+- **Verbs, not nominalisations.** "Decide" beats "make a decision."
+- **UK spelling and usage, not US.** Organise, not organize. Colour, behaviour, favour. Centre, metre. Travelled, modelling, labelled. Analyse, not analyze. Licence for the noun, practise for the verb. Programme, except for software. Leave code, identifiers, filenames, and direct quotations exactly as they are.
 - **One idea per sentence. Vary the length.** Short sentences for the load-bearing points. Don't let every sentence land at the same mid-length cadence. That evenness is itself a tell.
 - **Front-load.** The point goes near the top of the paragraph or section, not the end.
 - **Concrete over abstract.** "Write the date on the form," not "indicate the temporal coordinates."
