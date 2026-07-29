@@ -70,6 +70,21 @@ Apply these checks in proportion to the analysis. A descriptive or exploratory r
 3. Reconcile repeated numbers against their source table or calculation. Check totals, denominators, percentages, and displayed precision.
 4. Run `python3 /path/to/scientific-report/scripts/validate_report.py REPORT.html`, resolving the script from this skill's directory. Fix all errors. Review warnings rather than suppressing them mechanically.
 5. Read the finished report from top to bottom as a new reader. Confirm that each section explains its purpose, every exhibit is interpreted, specialist terms are defined or removed, and conclusions do not outrun the evidence.
+6. Run the review passes below, then triage and apply their findings.
+
+## Review passes
+
+Review the finished report through each lens below before delivery. Each lens is independent — a finding from one should not be assumed to cover another.
+
+If the environment provides a subagent or task-dispatch tool (for example Claude Code's `Agent` tool), launch one reviewer per lens in parallel. Give each reviewer only the report file, the lens description below, and read-only tools — it should return a short list of findings (location, issue, suggested fix) and make no edits itself. If no such tool is available, work through the same lenses yourself as separate sequential passes rather than one combined read; a single read-through tends to miss what a dedicated pass catches.
+
+- **Clarity and interpretability.** Read as a new, non-specialist reader. Flag any claim that is not traceable to a specific exhibit, any undefined term or acronym, any sentence that needs a second read, and any place prose and exhibit drift apart.
+- **Numerical/reporting consistency.** Check that every number is stated the same way everywhere it appears (value, precision, units). Recompute totals, denominators, and percentages against their source table. Flag any figure repeated with a different value or rounded inconsistently.
+- **Statistical rigour and overclaiming.** Check that causal language is used only where the design supports it, that uncertainty is reported where meaningful and not manufactured where it is not, and that conclusions do not go beyond what the results section actually shows.
+- **Reference checker.** Check that every major external claim (standard, vendor, dataset, prior result) has a citation, that citation numbers match their position in the reference list, and that no reference is unused or duplicated under a different number.
+- **Table and figure reviewer.** Check that every table and figure renders correctly, sits close to its first mention, has consistent spacing from surrounding prose, and has a caption that is accurate, placed correctly (above tables, below figures), and does not duplicate a heading.
+
+Fix clear errors directly. Use judgement on stylistic suggestions. Flag anything that depends on information only the user has (for example, a claim needing a citation you cannot find) rather than silently dropping it or inventing a source.
 
 ## Delivery
 
