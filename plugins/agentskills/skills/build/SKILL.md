@@ -11,7 +11,7 @@ Reliable, maintainable code with clear structure and explicit contracts. Correct
 
 **Plan before large changes.** Read `docs/architecture/index.md` for orientation if it exists. For significant work, write a short plan (problem, proposed solution, tradeoffs, success criteria) and align with the user before implementing.
 
-**Structure.** Modular, cohesive, clear separation of concerns. Small, focused functions; thin orchestration, heavy logic in helpers. Explicit names, no abbreviations, obvious control flow. Type hints on all functions; keyword-only params internally. `@dataclass(kw_only=True)` for state containers, with private fields and read-only properties for derived values.
+**Structure.** Modular, cohesive, clear separation of concerns. Small, focused functions; thin orchestration, heavy logic in helpers. Explicit names, no abbreviations, obvious control flow. Type hints on all functions; keyword-only params internally.
 
 **Comments and docs, minimally.** Comment intent, never restate syntax. Skip comments on trivial (1-3 line) code. NumPy-style docstrings on public symbols only - one-line summary, Parameters, Returns; keep them short unless the logic actually warrants more.
 
