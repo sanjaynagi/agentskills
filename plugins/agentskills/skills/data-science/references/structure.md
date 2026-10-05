@@ -1,99 +1,59 @@
 # Experiment structure
 
-Use one folder per coherent research question. Related hypotheses, parameter
-changes and follow-up figures normally belong to the same experiment. Start
-another when its question can usefully stand alone.
-
-## Layout
+Use one folder per coherent research question. Related hypotheses and parameter
+changes normally stay together; start another experiment when its question can
+stand alone. Adapt existing work incrementally rather than reorganising it to
+fit this example.
 
 ```text
-<repo>/
-  experiments/
-    <experiment-id>/
-      experiment.yaml
-      pixi.toml
-      pixi.lock
-      notebooks/
-        analysis.py
-      scripts/                    # optional experiment-specific batch helpers
-      config/                     # optional analytical parameters
-      data/                       # optional retained analytical inputs
-      resources/                  # optional supporting materials
-      tests/                      # optional substantive logic tests
-      results/
-        <sub-analysis>/
-          ...                     # choose useful filenames and substructure
-          <run-id>/               # optional frozen output checkpoint
-            ...
-      .local/                     # ignored, disposable downloads and scratch
-  workflows/                      # reusable analytical workflows, when needed
-  src/                            # shared Python code, when reuse warrants it
-  docs/                           # cross-experiment conventions and notes
+experiments/<experiment-id>/
+  experiment.yaml
+  pixi.toml
+  pixi.lock
+  notebooks/analysis.py
+  results/<sub-analysis>/...
+  data/          # optional retained analytical inputs
+  resources/     # optional papers, protocols and supporting materials
+  scripts/       # optional experiment-specific batch helpers
+  config/        # optional analytical parameters
+  tests/         # optional substantive logic tests
+  .local/        # optional ignored, disposable downloads and scratch
 ```
 
-Create directories as needed. A new experiment starts with its record, notebook
-and Pixi environment. Adapt to existing repository conventions rather than
-reorganising old work simply to fit this example.
+Create directories only as needed. Shared environments, materials and code can
+remain in existing locations; link them rather than duplicate them. Promote
+helpers to shared modules or workflows when actual reuse warrants it. Group
+results by sub-analysis; the human or agent chooses useful names and deeper
+structure.
 
-## IDs and discovery
+## IDs and records
 
-Use `YYYY-MM-DD-short-topic` for new experiment IDs and folder names. The date is
-the creation date; use lowercase letters, digits and hyphens. Check uniqueness,
-adding a descriptive suffix if necessary. Keep the ID fixed as the aim evolves.
-Existing experiments can keep their folder names as stable IDs.
+For new IDs and folder names, use `YYYY-MM-DD-short-topic` with the creation date,
+lowercase letters, digits and hyphens; check uniqueness. Keep IDs stable as aims
+evolve. Existing folder names can remain their IDs. Find prior work by searching
+folder names, records and notebook source; link related experiments from records.
 
-Prefer a flat `experiments/` directory. Link related experiments from their
-records rather than requiring a topic hierarchy or a catalogue. To locate prior
-work, search folder names, experiment records and notebook source.
+Adapt [the record template](../assets/experiment.yaml), keeping five fields:
 
-## Thin record
-
-Copy `../assets/experiment.yaml`, resolving it from this reference's directory.
-Keep the initial schema to five fields:
-
-- `id`: the stable experiment identifier, matching its folder name.
-- `aims`: a short list of research questions or aims.
-- `findings`: a short list of observations and appropriately qualified conclusions.
-- `limitations`: a short list of material limits on the evidence.
+- `id`: stable identifier matching the folder name.
+- `aims`: short list of research questions.
+- `findings`: observations and appropriately qualified conclusions.
+- `limitations`: material limits on the evidence.
 - `links`: descriptive labels mapped to relative paths or URLs.
 
-Resolve record-relative links from the experiment directory. Useful links include
-the entry notebook, output checkpoints, reports and related experiments. Update
-the summary at meaningful checkpoints. Empty findings mean none have been recorded;
-do not invent conclusions to fill the template.
+Resolve relative links from the experiment directory. Link the entry notebook,
+useful outputs, reports or related experiments. Empty findings are valid. The
+notebook owns analytical detail, provenance and next steps.
 
-The notebook contains the analytical detail and next steps. Add a README only when
-a complex experiment needs navigation beyond the record's links.
+## Portable files
 
-## Files and environments
+Use an experiment Pixi project by default; link an explicitly shared manifest
+from the record when appropriate. Keep its manifest and lockfile with the source.
+Resolve notebook paths from an explicit experiment root so saved work remains
+relocatable. Split notebooks when useful; numeric prefixes imply a real sequence.
 
-Start with `notebooks/analysis.py`; split into descriptively named notebooks when
-that improves readability. Numeric prefixes are useful only for a real sequence.
-Resolve analytical paths from an explicit experiment root, not an incidental
-caller working directory. Saved notebooks should remain relocatable.
-
-Use a Pixi project per experiment by default. Use a shared project when explicitly
-appropriate and link its manifest from the experiment record. Keep the manifest
-and lockfile with the source. Select supported platforms for the actual workload;
-avoid machine-specific installation paths in saved code.
-
-Experiment-specific helpers belong in `scripts/`; promote them to shared modules
-or `workflows/` when another experiment actually needs them. Analytical parameters
-belong in the experiment's `config/` when they warrant a separate file. Personal
-paths, profiles and storage destinations belong only in the skill's active user
-configuration, not in the analytical parameter files.
-
-Use `data/` for retained inputs used by code, including reference sequences and
-curated annotations. Use `resources/` for papers, protocols, manuals or explanatory
-materials. Derived outputs belong in `results/`. Shared materials can remain in
-existing shared directories and be linked from the notebook.
-
-Keeping a file locally does not imply tracking it in Git or uploading it with
-results. Keep disposable files under `.local/` and ignore that directory. Choose
-tracking of retained inputs explicitly; large downloaded inputs normally remain
-ignored. Input provenance belongs in the notebook, with extra manifests only when
-they help manage files.
-
-Group results by sub-analysis, with related figures, tables and interpretation
-together. Let the human or agent decide useful names and deeper structure as the
-investigation develops.
+Inputs used by code belong in `data/`, supporting materials in `resources/`, and
+derived outputs in `results/`. Local retention does not imply Git tracking or
+external storage; choose tracking explicitly and normally ignore large downloads
+and disposable scratch. Keep personal paths and storage settings in the active
+user configuration, separate from analytical parameters.
