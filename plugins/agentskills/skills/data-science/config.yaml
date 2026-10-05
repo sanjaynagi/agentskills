@@ -1,0 +1,9 @@
+# Portable defaults. Keep personal settings in one external YAML file selected
+# with DATA_SCIENCE_CONFIG, or configure this file in your local installation.
+# Null means unconfigured; credentials belong to the storage tool's credential system.
+artifacts:
+  provider: null
+  destination: null
+  profile: null
+  key_prefix: null
+  options: {}

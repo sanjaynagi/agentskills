@@ -1,15 +1,15 @@
 {
   "name": "agentskills",
   "version": "0.1.0",
-  "description": "Personal skills for concise engineering, natural prose, and interpretable scientific HTML reports.",
+  "description": "Personal skills for concise engineering, natural prose, exploratory data science, and interpretable scientific HTML reports.",
   "author": {
     "name": "Sanjay Nagi"
   },
   "skills": "./skills/",
   "interface": {
     "displayName": "Agent Skills",
-    "shortDescription": "Engineering, prose, and scientific reporting skills",
-    "longDescription": "A portable skill collection for concise software engineering, natural writing, and clear, evidence-led scientific HTML reports.",
+    "shortDescription": "Engineering, prose, data science, and reporting skills",
+    "longDescription": "A portable skill collection for concise software engineering, natural writing, exploratory research with marimo pair and Pixi, and clear, evidence-led scientific HTML reports.",
     "developerName": "Sanjay Nagi",
     "category": "Productivity",
     "capabilities": [
@@ -18,7 +18,8 @@
     "defaultPrompt": [
       "Turn this analysis into an interpretable scientific report.",
       "Rewrite this text in plain, natural language.",
-      "Review this code with concise engineering standards."
+      "Review this code with concise engineering standards.",
+      "Explore a research question in a marimo notebook with Pixi and preserve the findings."
     ]
   }
 }

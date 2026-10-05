@@ -1,0 +1,9 @@
+# Copy to experiments/<experiment-id>/experiment.yaml; replace the ID and aim.
+# Relative links resolve from the experiment directory.
+id: YYYY-MM-DD-short-topic
+aims:
+  - State the research question.
+findings: []
+limitations: []
+links:
+  notebook: notebooks/analysis.py
